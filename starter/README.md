@@ -44,7 +44,7 @@ PATCH /actors/<int:id> & /movies/<int:id>
 All below Endpoints have been created, please refer app.py file.
 
 Auth0 Setup:
-AUTH0_DOMAIN, ALGORITHMS and API_AUDIENCE are all available in the setup.sh file for reference. Json Web Tokens: You can find JWTs for each role in the setup.sh file to run the app locally.
+AUTH0_DOMAIN, ALGORITHMS and API_AUDIENCE are all available in the setup.sh file for reference. 
 
 Roles: All 3 roles have been defined in Auth0 and following permissions as shown for each role below are also defined in Auth0.
 
@@ -53,14 +53,7 @@ Casting Director _ All permissions a Casting Assistant has and _ post:actors and
 Executive Producer _ All permissions a Casting Director has and _ post:movies and delete:movies
 Deployment Details:
 App is deployed to Heroku.
-Heroku Postgres DATABASE details are available in setup.sh file for reference.
-Use the above stated endpoints and append to this link above to execute the app either thru CURL or Postman. For example:
-
-$ curl -X GET https://harsh-casting-agency.herokuapp.com//actors?page=1
-$ curl -X POST https://harsh-casting-agency.herokuapp.com//actors
-$ curl -X PATCH https://harsh-casting-agency.herokuapp.com//actors/1
-$ curl -X DELETE https://harsh-casting-agency.herokuapp.com//actors/1
-Similarly, you can build these for /movies endpoints too.
+url: url: https://dashboard.heroku.com/apps/habibah-capstone-project1
 
 Testing:
 We can run our entire test case by running the following command at command line
