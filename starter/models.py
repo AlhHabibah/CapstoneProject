@@ -6,9 +6,9 @@ from datetime import date
 
 
 
-DATABASE_PATH='postgresql://postgres:Habibah1234&@localhost:5432/castagency'
+#DATABASE_PATH='postgresql://postgres:Habibah1234&@localhost:5432/castagency'
 
-#DATABASE_PATH = os.environ['DATABASE_URL']
+DATABASE_PATH = os.environ['DATABASE_URL']
 
 db = SQLAlchemy()
 
