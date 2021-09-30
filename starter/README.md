@@ -67,17 +67,17 @@ Setting the FLASK_ENV variable to development will detect file changes and resta
 Setting the FLASK_APP variable to app.py directs flask to use the this file to find the application.
 
 ## Models:
-Movies model defined with attributes title and release date 
-Actors model defined with attributes name, age and gender
+Movies model defined with attributes title and release date. 
+Actors model defined with attributes name, age and gender.
 You can find the models in models.py file. Local Postgres DATABASE details are available in setup.sh file for reference.
 
 ## Endpoints
 ### Movies
 #### GET /movies
 ##### Public
-Fetches all the movies from the database
-Request arguments: None
-Returns: A list of movies contain key:value pairs of id, title and release_date
+Fetches all the movies from the database.
+Request arguments: None.
+Returns: A list of movies contain key:value pairs of id, title and release_date.
 ##### Response
 ```{
   "success": true,
