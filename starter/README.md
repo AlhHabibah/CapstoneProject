@@ -21,7 +21,7 @@ Here we initialize and activate a virtualenv:
     $ source env/bin/activate
 
 # PIP Dependencies:
- - Once you have your virtual environment setup and running, install dependencies by naviging to the /backend directory and running:
+ - Once you have your virtual environment setup and running, install dependencies and running:
 
     pip install -r requirements.txt
 This will install all of the required packages we selected within the requirements.txt file.
@@ -67,9 +67,9 @@ Setting the FLASK_ENV variable to development will detect file changes and resta
 Setting the FLASK_APP variable to app.py directs flask to use the this file to find the application.
 
 ## Models:
-Movies model defined with attributes title and release date. 
-Actors model defined with attributes name, age and gender.
-You can find the models in models.py file. Local Postgres DATABASE details are available in setup.sh file for reference.
+#### Movies model defined with attributes title and release date. 
+#### Actors model defined with attributes name, age and gender.
+#### You can find the models in models.py file. Local Postgres DATABASE details are available in setup.sh file for reference.
 
 ## Endpoints
 ### Movies
@@ -79,7 +79,8 @@ Fetches all the movies from the database.
 Request arguments: None.
 Returns: A list of movies contain key:value pairs of id, title and release_date.
 ##### Response
-```{
+```
+{
   "success": true,
   "movie": [ {
     "id" : 1,
@@ -108,7 +109,8 @@ Returns: the created movie contains key:value pairs of id, title and release_dat
 }
 ```
 ##### Response
-```{
+```
+{
   "success": true,
   "movie": [{
     "title": "Star Wars",
@@ -123,13 +125,15 @@ Updates a movie using the information provided by request's body
 Request arguments: Movie id
 Returns: the updated movie contains key:value pairs of id, title and release_date
 ##### Body
-```{
+```
+{
 
   "duration": 150
 }
 ```
 ##### Response
-``` {
+```
+{
   "success": true,
   "movie": [{
     "title": "Star Wars",
@@ -143,7 +147,8 @@ Deletes a movie based the request argument
 Request arguments: Movie id
 Returns: the deleted movie id
 ##### Response
-```{
+```
+{
   "success": true,
   "deleted": 1
 }```
