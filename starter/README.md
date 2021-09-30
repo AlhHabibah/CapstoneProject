@@ -151,7 +151,8 @@ Returns: the deleted movie id
 {
   "success": true,
   "deleted": 1
-}```
+}
+```
 ### Actors
 #### GET /actors
 ##### Public
@@ -159,7 +160,8 @@ Fetches all the actors from the database
 Request arguments: None
 Returns: A list of actors contain key:value pairs of id, name, age and gender
 ##### Response
-```{
+```
+{
   "success": true,
   "actor": [
     {
@@ -183,7 +185,8 @@ Creates an actor from the request's body
 Request arguments: None
 Returns: the created actor contains key:value pairs of id, name, age and gender
 ##### Body
-```{
+```
+{
    "name": "Nicholas",
    "gender": "M",
    "age":"20"
@@ -191,7 +194,8 @@ Returns: the created actor contains key:value pairs of id, name, age and gender
 ```
 ##### Response
 
-``` {
+```
+{
   "success": true,
   "actor": [{
      "id": 1,
@@ -207,12 +211,14 @@ Updates a actor using the information provided by request's body
 Request arguments: Actor id
 Returns: the updated actor contains key:value pairs of id, name, age and gender
 ##### Body
-```{
+```
+{
    "age: "40"
 }
 ```
 ##### Response
-```{
+```
+{
   "success": true,
   "actor": [{
      "id": 1,
