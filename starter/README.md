@@ -1,4 +1,4 @@
-## live URL:
+## Live URL:
  https://habibah-capstone-project1.herokuapp.com/
 # Motivation for the project:
 This is the last project of the Udacity-Full-Stack-Nanodegree Program. It covers following technical topics in 1 app:
@@ -26,8 +26,8 @@ Here we initialize and activate a virtualenv:
     pip install -r requirements.txt
 This will install all of the required packages we selected within the requirements.txt file.
 
-# Key Dependencies
-    Flask is a lightweight backend microservices framework. Flask is required to handle requests and responses.
+# Key Dependencies:
+Flask is a lightweight backend microservices framework. Flask is required to handle requests and responses.
 
 SQLAlchemy is the Python SQL toolkit and ORM we'll use handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py.
 
@@ -39,7 +39,7 @@ pip install flask_migrate
 pip install psycopg2-binary
 ```
 
-## Running the server
+## Running the server:
 
 1-setting up the database url as postgresql://{username}:{user Password}@{host}:{port number}/{database name}
 
