@@ -7,102 +7,68 @@ from models import db_drop_and_create_all, setup_db, Actors, Movies, Performance
 from auth import AuthError, requires_auth
 
 
-RECS_PER_PAGE = 10
-
+RECS_PER_PAGE = 12
 
 def create_app(test_config=None):
-    # create and configure the app
-
     app = Flask(__name__)
     setup_db(app)
     db_drop_and_create_all()
-
     CORS(app)
-
-    '''
-    CORS Headers
-    '''
 
     @app.after_request
     def after_request(response):
-        response.headers.add('Access-Control-Allow-Headers',
-                             'Content-Type, Authorization')
-        response.headers.add('Access-Control-Allow-Headers',
-                             'GET, POST, PATCH, DELETE, OPTIONS')
+        response.headers.add('Access-Control-Allow-Headers','Content-Type, Authorization')
+        response.headers.add('Access-Control-Allow-Headers','GET, POST, PATCH, DELETE, OPTIONS')
         return response
-
-    '''
-    To Keep a common pagination method to be called
-    by different endpoints
-    '''
-
+################################################################
+    
+    
     def paginate_questions(request, selection):
         page = request.args.get('page', 1, type=int)
         start = (page - 1) * RECS_PER_PAGE
         end = start + RECS_PER_PAGE
 
-        recs_format = [record.format() for record in selection]
-        page_recs = recs_format[start:end]
-        return page_recs
-
-    '''
-    Sample Endpoint: To test if the app is up and running
-    '''
-
-    @app.route('/', methods=['GET'])
-    def get_init():
-        return jsonify({
-            'success': True,
-            'SampleTest': 'Hello World'
-        })
-
+        recs_format = [dRecord.format() for dRecord in selection]
+        return recs_format[start:end]
     ################################################
 
-    @app.route('/actors', methods=['GET'])
+    @app.route('/actors', methods=['GET'])                                    #this method is used to retrieve all actors
     @requires_auth(permission='get:actors')
     def get_actors(payload):
         try:
             selections = Actors.query.order_by(Actors.id).all()
-            paged_actors = paginate_questions(request, selections)
-            total_actors = len(selections)
+            pagedActors = paginate_questions(request, selections)
+            totalActors = len(selections)
             return jsonify({
                 'success': True,
-                'actors': paged_actors,
-                'total-actors': total_actors
+                'actors': pagedActors,
+                'total-actors': totalActors
             })
         except Exception:
             abort(422)
 
     ###################################################
 
-    @app.route('/actors', methods=['POST'])
+    @app.route('/actors', methods=['POST'])             #this method is used to add a new actor
     @requires_auth(permission='post:actors')
     def post_actors(payload):
-        add_actor = request.get_json()
-        actor_name = add_actor.get('name')
-        actor_gender = add_actor.get('gender')
-        actor_age = add_actor.get('age')
-
-        if actor_name is None:
+        addActor = request.get_json()
+        actorName = addActor.get('name')
+        actorGender = addActor.get('gender')
+        actorAge = addActor.get('age')
+        if actorName is None:
             abort(422)
-
-        if actor_gender is None:
+        if actorGender is None:
             abort(422)
-
-        if actor_age is None:
+        if actorAge is None:
             abort(422)
-
         try:
-            new_actor = Actors(name=actor_name,
-                               gender=actor_gender,
-                               age=actor_age)
-            new_actor.insert()
-
+            newActor = Actors(name=actorName,gender=actorGender,age=actorAge)
+            newActor.insert()
             return jsonify({
                 "success": True,
-                "actor-added": new_actor.id
+                "actor-added": newActor.id
             })
-
         except Exception:
             abort(422)
 
@@ -114,36 +80,28 @@ def create_app(test_config=None):
         actor = Actors.query.filter(Actors.id == id).first()
         if not actor:
             abort(404)
-
-        update_actor_req = request.get_json()
-
-        if update_actor_req is None:
+        updateActorReq = request.get_json()
+        if updateActorReq is None:
             abort(422)
-
         try:
-            if 'name' in update_actor_req:
-                actor.name = update_actor_req['name']
-
-            if 'gender' in update_actor_req:
-                actor.gender = update_actor_req['gender']
-
-            if 'age' in update_actor_req:
-                actor.age = update_actor_req['age']
-
+            if 'name' in updateActorReq:
+                actor.name = updateActorReq['name']
+            if 'gender' in updateActorReq:
+                actor.gender = updateActorReq['gender']
+            if 'age' in updateActorReq:
+                actor.age = updateActorReq['age']
             actor.update()
-
             return jsonify({
                 "success": True,
                 "actor-updated": actor.id
             })
-
         except Exception:
             abort(422)
 
     ####################################################
 
     @app.route('/actors/<int:id>', methods=['DELETE'])
-    @requires_auth(permission='delete:actors')
+    @requires_auth(permission='delete:actors')                                  #to delete selected actor based on id
     def delete_actors(payload, id):
         actor = Actors.query.filter(Actors.id == id).first()
         if not actor:
@@ -152,77 +110,66 @@ def create_app(test_config=None):
             actor.delete()
             return jsonify({
                 "success": True,
-                "actor-deleted": actor.id
-            })
-
+                "actor-deleted": actor.id })
         except Exception:
             abort(422)
 
-    ###############################################
+    ##########################################################
 
-    @app.route('/movies', methods=['GET'])
+    @app.route('/movies', methods=['GET'])                                    #to retrieve all movies
     @requires_auth(permission='get:movies')
     def get_movies(payload):
         try:
             selections = Movies.query.order_by(Movies.id).all()
-            paged_movies = paginate_questions(request, selections)
-            total_movies = len(selections)
+            pagedMovies = paginate_questions(request, selections)
+            totalMovies = len(selections)
             return jsonify({
                 'success': True,
-                'movies': paged_movies,
-                'total-movies': total_movies
-            })
+                'movies': pagedMovies,
+                'total-movies': totalMovies  })
         except Exception:
             abort(422)
 
     ###################################################
-    @app.route('/movies', methods=['POST'])
+    @app.route('/movies', methods=['POST'])                              #to add new movie
     @requires_auth(permission='post:movies')
     def post_movies(payload):
-        add_movie = request.get_json()
-        movie_title = add_movie.get('title')
-        movie_rls_date = add_movie.get('release_date')
+        addMovie = request.get_json()
+        movieTitle = addMovie.get('title')
+        movieRls_date = addMovie.get('release_date')
 
-        if movie_title is None:
+        if movieTitle is None:
             abort(422)
-
-        if movie_rls_date is None:
+        if movieRls_date is None:
             abort(422)
-
         try:
-            new_movie = Movies(title=movie_title,
-                               release_date=movie_rls_date)
-            new_movie.insert()
-
+            newMovie = Movies(title=movieTitle, release_date=movieRls_date)
+            newMovie.insert()
             return jsonify({
                 "success": True,
-                "movie-added": new_movie.id
-            })
-
+                "movie-added": new_movie.id })
         except Exception:
             abort(422)
 
     #################################################
 
-    @app.route('/movies/<int:id>', methods=['PATCH'])
+    @app.route('/movies/<int:id>', methods=['PATCH'])      
     @requires_auth(permission='patch:movies')
     def patch_movies(payload, id):
         movie = Movies.query.filter(Movies.id == id).first()
-
         if not movie:
             abort(404)
+        updateMovieReq = request.get_json()
 
-        update_movie_req = request.get_json()
-
-        if update_movie_req is None:
+        if updateMovieReq is None:
             abort(422)
 
         try:
-            if 'title' in update_movie_req:
-                movie.title = update_movie_req['title']
+            if 'title' in updateMovieReq:
+                movie.title = updateMovieReq['title']
 
-            if 'release_date' in update_movie_req:
-                movie.release_date = update_movie_req['release_date']
+            if 'release_date' in updateMovieReq:
+                movie.release_date = updateMovieReq['release_date']
 
             movie.update()
 
@@ -252,11 +199,8 @@ def create_app(test_config=None):
         except Exception:
             abort(422)
 
-    '''
-    Error handlers for possible errors including 400, 401, 403,
-    404, 405, 422 and 500.
-    '''
-
+ 
+   # Error handlers for possible errors including 400, 401, 403,404, 405,422,500
     @app.errorhandler(400)
     def badRequest(error):
         return jsonify({
@@ -278,7 +222,7 @@ def create_app(test_config=None):
         return jsonify({
             "success": False,
             "error": 403,
-            "message": "Access Denied/Forbidden"
+            "message": "Forbidden/Access Denied"
         }), 403
 
     @app.errorhandler(404)
@@ -302,7 +246,7 @@ def create_app(test_config=None):
         return jsonify({
             "success": False,
             "error": 422,
-            "message": "unprocessable"
+            "message": "unprocess entity"
         }), 422
 
     @app.errorhandler(500)
